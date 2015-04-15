@@ -16,7 +16,7 @@
 
     var yawObject = new THREE.Object3D();
     yawObject.position.y = 2;
-    yawObject.add( pitchObject );
+    yawObject.add( pitchObject );vel
 
     var quat = new THREE.Quaternion();
 
@@ -24,6 +24,7 @@
     var moveBackward = false;
     var moveLeft = false;
     var moveRight = false;
+    var running =false;
 
     var canJump = false;
 
@@ -120,6 +121,9 @@
                 }
                 canJump = false;
                 break;
+            case 16 //shift key
+            	running = true;
+            	break;
         }
 
     };
@@ -149,6 +153,9 @@
             case 68: // d
                 moveRight = false;
                 break;
+            case 16: //shift key
+            	running = false;
+            	break;
 
         }
 
@@ -391,7 +398,12 @@
         }
 
         if ( moveForward ){
-            inputVelocity.z = -velocityFactor * delta;
+            if(running){ //arbitrary speed increase of 1.7 times
+            	inputVelocity.z  = - velocityFactor * delta * 1.7;	
+            }
+            else{
+            	inputVelocity.z = -velocityFactor * delta;
+            }
         }
         if ( moveBackward ){
             inputVelocity.z = velocityFactor * delta;
